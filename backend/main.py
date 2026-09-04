@@ -24,6 +24,7 @@ from app.models import (  # noqa: F401
     WatchlistStock,
 )
 from app.schemas import LoginRequest, SignupRequest, Token, UserResponse
+from app.stocks import router as stocks_router, seed_initial_stocks
 
 app = FastAPI(
     title="MarketLens API",
@@ -76,6 +77,11 @@ def create_db_tables() -> None:
     Base.metadata.create_all(bind=engine)
     ensure_user_is_admin_column()
     ensure_default_admin()
+    with SessionLocal() as db:
+        seed_initial_stocks(db)
+
+
+app.include_router(stocks_router)
 
 
 @app.post("/auth/signup", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
