@@ -98,3 +98,53 @@ class StockStatusUpdate(BaseModel):
 class StockStatusResponse(BaseModel):
     message: str
     is_active: bool
+
+
+class WatchlistCreate(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    name: str = Field(..., min_length=1, max_length=150)
+
+    @field_validator("name", mode="before")
+    @classmethod
+    def normalize_name(cls, value: str) -> str:
+        if not isinstance(value, str):
+            raise ValueError("Watchlist name must be text")
+        value = value.strip()
+        if not value:
+            raise ValueError("Watchlist name cannot be empty")
+        return value
+
+
+class WatchlistUpdate(WatchlistCreate):
+    pass
+
+
+class WatchlistStockAdd(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    stock_id: int = Field(..., gt=0)
+
+
+class WatchlistStockResponse(BaseModel):
+    id: int
+    symbol: str
+    company_name: str
+    exchange: str
+
+
+class WatchlistResponse(BaseModel):
+    id: int
+    name: str
+    stocks: list[WatchlistStockResponse]
+    created_at: datetime
+
+
+class MarketDataResponse(BaseModel):
+    symbol: str
+    open: float
+    high: float
+    low: float
+    close: float
+    volume: int
+    timestamp: datetime
