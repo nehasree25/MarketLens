@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session
 import yfinance as yf
 
 from app.auth import get_current_user, get_db
-from app.models import Stock, User
+from app.models import MarketSnapshot, Stock, User
 from app.schemas import MarketDataResponse
 
 router = APIRouter(prefix="/market-data", tags=["Market Data"])
@@ -121,6 +121,41 @@ def get_market_data(
         stocks = [stocks_by_symbol[symbol] for symbol in requested_symbols]
 
     return [_fetch_or_raise(stock.symbol) for stock in stocks]
+
+
+@router.get("/{stock_id}/snapshots", response_model=list[MarketDataResponse])
+def get_market_snapshots(
+    stock_id: int,
+    limit: int = Query(default=50, ge=1, le=100),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    stock = db.query(Stock).filter(Stock.id == stock_id).first()
+    if stock is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Stock not found",
+        )
+
+    snapshots = (
+        db.query(MarketSnapshot)
+        .filter(MarketSnapshot.stock_id == stock_id)
+        .order_by(MarketSnapshot.timestamp.desc())
+        .limit(limit)
+        .all()
+    )
+    return [
+        {
+            "symbol": stock.symbol,
+            "open": snapshot.open,
+            "high": snapshot.high,
+            "low": snapshot.low,
+            "close": snapshot.close,
+            "volume": snapshot.volume,
+            "timestamp": snapshot.timestamp,
+        }
+        for snapshot in snapshots
+    ]
 
 
 @router.get("/{stock_id}", response_model=MarketDataResponse)

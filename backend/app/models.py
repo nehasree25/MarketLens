@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import datetime
 
-from sqlalchemy import Boolean, DateTime, ForeignKey, Integer, Numeric, String, func
+from sqlalchemy import Boolean, DateTime, ForeignKey, Integer, Numeric, String, UniqueConstraint, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database import Base
@@ -86,6 +86,13 @@ class WatchlistStock(Base):
 
 class MarketSnapshot(Base):
     __tablename__ = "market_snapshots"
+    __table_args__ = (
+        UniqueConstraint(
+            "stock_id",
+            "timestamp",
+            name="uq_market_snapshots_stock_timestamp",
+        ),
+    )
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     stock_id: Mapped[int] = mapped_column(ForeignKey("stocks.id"), nullable=False, index=True)

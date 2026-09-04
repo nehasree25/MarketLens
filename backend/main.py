@@ -27,6 +27,7 @@ from app.schemas import LoginRequest, SignupRequest, Token, UserResponse
 from app.stocks import router as stocks_router, seed_initial_stocks
 from app.watchlists import router as watchlists_router
 from app.market_data import router as market_data_router
+from app.snapshot_collector import start_snapshot_scheduler, stop_snapshot_scheduler
 
 app = FastAPI(
     title="MarketLens API",
@@ -74,13 +75,41 @@ def ensure_default_admin() -> None:
         db.commit()
 
 
+def ensure_market_snapshot_unique_constraint() -> None:
+    constraint_name = "uq_market_snapshots_stock_timestamp"
+    with engine.begin() as conn:
+        constraint_exists = conn.execute(
+            text(
+                "SELECT 1 FROM pg_constraint "
+                "WHERE conrelid = 'market_snapshots'::regclass "
+                "AND conname = :constraint_name"
+            ),
+            {"constraint_name": constraint_name},
+        ).first()
+        if constraint_exists is None:
+            conn.execute(
+                text(
+                    "ALTER TABLE market_snapshots "
+                    "ADD CONSTRAINT uq_market_snapshots_stock_timestamp "
+                    "UNIQUE (stock_id, timestamp)"
+                )
+            )
+
+
 @app.on_event("startup")
 def create_db_tables() -> None:
     Base.metadata.create_all(bind=engine)
     ensure_user_is_admin_column()
     ensure_default_admin()
+    ensure_market_snapshot_unique_constraint()
     with SessionLocal() as db:
         seed_initial_stocks(db)
+    start_snapshot_scheduler()
+
+
+@app.on_event("shutdown")
+def stop_background_tasks() -> None:
+    stop_snapshot_scheduler()
 
 
 app.include_router(stocks_router)
