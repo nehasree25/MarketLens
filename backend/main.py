@@ -96,12 +96,34 @@ def ensure_market_snapshot_unique_constraint() -> None:
             )
 
 
+def ensure_user_stock_state_unique_constraint() -> None:
+    constraint_name = "uq_user_stock_state_user_stock"
+    with engine.begin() as conn:
+        constraint_exists = conn.execute(
+            text(
+                "SELECT 1 FROM pg_constraint "
+                "WHERE conrelid = 'user_stock_state'::regclass "
+                "AND conname = :constraint_name"
+            ),
+            {"constraint_name": constraint_name},
+        ).first()
+        if constraint_exists is None:
+            conn.execute(
+                text(
+                    "ALTER TABLE user_stock_state "
+                    "ADD CONSTRAINT uq_user_stock_state_user_stock "
+                    "UNIQUE (user_id, stock_id)"
+                )
+            )
+
+
 @app.on_event("startup")
 def create_db_tables() -> None:
     Base.metadata.create_all(bind=engine)
     ensure_user_is_admin_column()
     ensure_default_admin()
     ensure_market_snapshot_unique_constraint()
+    ensure_user_stock_state_unique_constraint()
     with SessionLocal() as db:
         seed_initial_stocks(db)
     start_snapshot_scheduler()

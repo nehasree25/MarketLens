@@ -110,6 +110,13 @@ class MarketSnapshot(Base):
 
 class UserStockState(Base):
     __tablename__ = "user_stock_state"
+    __table_args__ = (
+        UniqueConstraint(
+            "user_id",
+            "stock_id",
+            name="uq_user_stock_state_user_stock",
+        ),
+    )
 
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     user_id: Mapped[int] = mapped_column(ForeignKey("users.id"), nullable=False, index=True)

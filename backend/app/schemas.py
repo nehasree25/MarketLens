@@ -100,6 +100,18 @@ class StockStatusResponse(BaseModel):
     is_active: bool
 
 
+class UserStockStateResponse(BaseModel):
+    stock_id: int
+    symbol: str
+    reference_price: float
+    reference_timestamp: datetime
+    last_checked_at: datetime
+
+
+class UserStockCheckResponse(UserStockStateResponse):
+    message: str
+
+
 class WatchlistCreate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 

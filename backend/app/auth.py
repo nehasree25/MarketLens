@@ -21,7 +21,7 @@ if not SECRET_KEY:
 
 ALGORITHM = os.getenv("JWT_ALGORITHM", "HS256")
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("JWT_ACCESS_TOKEN_EXPIRE_MINUTES", "30"))
-security = HTTPBearer()
+security = HTTPBearer(auto_error=False)
 
 
 def get_db():
