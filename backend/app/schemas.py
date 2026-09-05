@@ -112,6 +112,22 @@ class UserStockCheckResponse(UserStockStateResponse):
     message: str
 
 
+class StockChangeResponse(BaseModel):
+    status: str
+    message: str
+    stock_id: int
+    symbol: str
+    reference_price: float
+    reference_timestamp: datetime
+    current_price: float
+    current_timestamp: datetime
+    reference_volume: int | None = None
+    current_volume: int | None = None
+    price_change: float | None = None
+    price_change_percent: float | None = None
+    direction: str | None = None
+
+
 class WatchlistCreate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 

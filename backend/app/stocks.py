@@ -7,12 +7,14 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from app.auth import get_current_admin, get_current_user, get_db
+from app.change_detection import calculate_stock_change
 from app.models import MarketSnapshot, Stock, User, UserStockState
 from app.schemas import (
     StockCreate,
     StockResponse,
     StockStatusResponse,
     StockStatusUpdate,
+    StockChangeResponse,
     UserStockCheckResponse,
     UserStockStateResponse,
 )
@@ -203,6 +205,68 @@ def get_all_stock_states(
         .all()
     )
     return [_state_response(stock, state) for state, stock in states]
+
+
+@router.get("/{stock_id}/changes", response_model=StockChangeResponse)
+def get_stock_changes(
+    stock_id: int,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    stock = (
+        db.query(Stock)
+        .filter(Stock.id == stock_id, Stock.is_active.is_(True))
+        .first()
+    )
+    if stock is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Stock not found",
+        )
+
+    state = (
+        db.query(UserStockState)
+        .filter(
+            UserStockState.user_id == current_user.id,
+            UserStockState.stock_id == stock_id,
+        )
+        .first()
+    )
+    if state is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No previous check found for this stock",
+        )
+
+    latest_snapshot = (
+        db.query(MarketSnapshot)
+        .filter(MarketSnapshot.stock_id == stock_id)
+        .order_by(MarketSnapshot.timestamp.desc())
+        .first()
+    )
+    if latest_snapshot is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="No market snapshot found for this stock",
+        )
+
+    reference_snapshot = (
+        db.query(MarketSnapshot)
+        .filter(
+            MarketSnapshot.stock_id == stock_id,
+            MarketSnapshot.timestamp == state.reference_timestamp,
+        )
+        .first()
+    )
+    change = calculate_stock_change(
+        reference_price=state.reference_price,
+        reference_timestamp=state.reference_timestamp,
+        current_price=latest_snapshot.close,
+        current_timestamp=latest_snapshot.timestamp,
+        reference_volume=reference_snapshot.volume if reference_snapshot else None,
+        current_volume=latest_snapshot.volume,
+    )
+    return {"stock_id": stock.id, "symbol": stock.symbol, **change}
 
 
 @router.post("", response_model=StockResponse, status_code=status.HTTP_201_CREATED)
