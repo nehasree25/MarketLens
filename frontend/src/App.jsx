@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import Dashboard from './pages/Dashboard'
 import Watchlists from './pages/Watchlists'
 import WatchlistDetails from './pages/WatchlistDetails'
+import StockDetailsPage from './components/StockDetailsPage'
 import Signup from './pages/Signup'
 import LoginScreen from './components/LoginScreen'
 import LoadingState from './components/LoadingState'
@@ -55,7 +56,13 @@ function WatchlistsRoute({ theme, setTheme, navigate }) {
 function WatchlistDetailsRoute({ watchlistId, theme, setTheme, navigate }) {
   const { user, logout } = useAuth()
   const exitToLogin = () => { logout(); navigate('/login') }
-  return <AppLayout path={`/watchlists/${watchlistId}`} user={user} theme={theme} onToggleTheme={() => setTheme(theme === 'dark' ? 'light' : 'dark')} onNavigate={navigate} onLogout={exitToLogin}><WatchlistDetails watchlistId={watchlistId} onBack={() => navigate('/watchlists')} onUnauthorized={exitToLogin} /></AppLayout>
+  return <AppLayout path={`/watchlists/${watchlistId}`} user={user} theme={theme} onToggleTheme={() => setTheme(theme === 'dark' ? 'light' : 'dark')} onNavigate={navigate} onLogout={exitToLogin}><WatchlistDetails watchlistId={watchlistId} onBack={() => navigate('/watchlists')} onUnauthorized={exitToLogin} onOpenStock={(stockId) => navigate(`/stocks/${stockId}`)} /></AppLayout>
+}
+
+function StockDetailsRoute({ stockId, theme, setTheme, navigate }) {
+  const { user, logout } = useAuth()
+  const exitToLogin = () => { logout(); navigate('/login') }
+  return <AppLayout path="/stocks" user={user} theme={theme} onToggleTheme={() => setTheme(theme === 'dark' ? 'light' : 'dark')} onNavigate={navigate} onLogout={exitToLogin}><StockDetailsPage stockId={stockId} onBack={() => navigate('/dashboard')} onUnauthorized={exitToLogin} /></AppLayout>
 }
 
 function AppContent() {
@@ -77,6 +84,7 @@ function AppContent() {
   if (path === '/dashboard' || path === '/') return <DashboardRoute theme={theme} setTheme={setTheme} navigate={navigate} searchQuery={searchQuery} onSearch={setSearchQuery} />
   if (path === '/watchlists') return <WatchlistsRoute theme={theme} setTheme={setTheme} navigate={navigate} />
   if (/^\/watchlists\/\d+$/.test(path)) return <WatchlistDetailsRoute watchlistId={path.split('/')[2]} theme={theme} setTheme={setTheme} navigate={navigate} />
+  if (/^\/stocks\/\d+$/.test(path)) return <StockDetailsRoute stockId={path.split('/')[2]} theme={theme} setTheme={setTheme} navigate={navigate} />
   if (path === '/stocks') return <ProtectedPage title="Stocks" path={path} user={user} theme={theme} setTheme={setTheme} navigate={navigate} logout={logout} />
   if (path.startsWith('/stock/') || path.startsWith('/watchlist/')) return <ProtectedPage title="MarketLens detail" path={path} user={user} theme={theme} setTheme={setTheme} navigate={navigate} logout={logout} />
   navigate(user ? '/dashboard' : '/login')
