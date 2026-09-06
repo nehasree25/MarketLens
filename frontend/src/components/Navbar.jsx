@@ -6,6 +6,7 @@ const links = [
   { label: 'Dashboard', path: '/dashboard' },
   { label: 'Watchlists', path: '/watchlists' },
   { label: 'Stocks', path: '/stocks' },
+  { label: 'Search', path: '/search' },
 ]
 
 export default function Navbar({ path, user, theme, searchQuery = '', onSearch = () => {}, onToggleTheme, onNavigate, onLogout }) {

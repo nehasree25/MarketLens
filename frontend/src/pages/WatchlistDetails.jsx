@@ -10,6 +10,7 @@ export default function WatchlistDetails({ watchlistId, onBack, onUnauthorized, 
   const [changes, setChanges] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [changesError, setChangesError] = useState(null)
   const [modal, setModal] = useState(null)
   const [checkingId, setCheckingId] = useState(null)
   const [removing, setRemoving] = useState(false)
@@ -18,13 +19,19 @@ export default function WatchlistDetails({ watchlistId, onBack, onUnauthorized, 
   const loadData = useCallback(async () => {
     setLoading(true)
     setError(null)
+    setChangesError(null)
     try {
-      const [watchlistResponse, changesResponse] = await Promise.all([
+      const [watchlistResult, changesResult] = await Promise.allSettled([
         getWatchlist(watchlistId),
         getWatchlistChanges(watchlistId),
       ])
-      setWatchlist(watchlistResponse)
-      setChanges(changesResponse)
+      if (watchlistResult.status === 'rejected') throw watchlistResult.reason
+      setWatchlist(watchlistResult.value)
+      if (changesResult.status === 'fulfilled') setChanges(changesResult.value)
+      else {
+        if (changesResult.reason?.status === 401 || changesResult.reason?.status === 403) onUnauthorized()
+        setChangesError(changesResult.reason?.status === 404 ? 'Watchlist changes are unavailable.' : 'Unable to load watchlist changes.')
+      }
     } catch (requestError) {
       if (requestError.status === 401 || requestError.status === 403) onUnauthorized()
       else setError(requestError.status === 404 ? 'Watchlist not found.' : 'Unable to load watchlist changes.')
@@ -75,6 +82,8 @@ export default function WatchlistDetails({ watchlistId, onBack, onUnauthorized, 
 
   if (loading) return <main className="dashboard-content detail-content"><div className="skeleton detail-skeleton" /></main>
   if (error) return <main className="dashboard-content detail-content"><button className="back-link" type="button" onClick={onBack}>← Back to watchlists</button><div className="watchlist-message"><h2>{error}</h2><button className="secondary-button" type="button" onClick={loadData}>Retry</button></div></main>
+
+  if (changesError || !changes) return <main className="dashboard-content detail-content"><button className="back-link" type="button" onClick={onBack}>← Back to watchlists</button><div className="detail-heading"><div><span className="eyebrow">Watchlist detail</span><h1>{watchlist.name}</h1><p className="muted">{watchlist.stocks?.length ?? 0} stocks currently tracked.</p></div><button className="primary-button" type="button" onClick={() => setModal({ type: 'add' })}>+ Add stock</button></div><div className="watchlist-message"><h2>Unable to load watchlist changes.</h2><p>Stocks are still available, but change data could not be loaded.</p><button className="secondary-button" type="button" onClick={loadData}>Retry changes</button></div>{modal?.type === 'add' ? <AddStockModal watchlist={watchlist} onClose={() => setModal(null)} onUpdated={async (updated) => { setWatchlist(updated); setModal(null); await loadData() }} onUnauthorized={onUnauthorized} /> : null}</main>
 
   const hasStocks = changes.stocks.length > 0
   const noSignificantChanges = hasStocks && changes.stocks.every((stock) => stock.attention_level === 'NO_NOTABLE_CHANGE' || stock.status === 'NO_NEW_DATA')

@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react'
 import Dashboard from './pages/Dashboard'
 import Watchlists from './pages/Watchlists'
 import WatchlistDetails from './pages/WatchlistDetails'
+import Search from './pages/Search'
 import StockDetailsPage from './components/StockDetailsPage'
 import Signup from './pages/Signup'
 import LoginScreen from './components/LoginScreen'
 import LoadingState from './components/LoadingState'
 import ProtectedRoute from './components/ProtectedRoute'
+import ErrorBoundary from './components/ErrorBoundary'
 import AppLayout from './layouts/AppLayout'
 import { AuthProvider, useAuth } from './context/AuthContext'
 import { getDashboardSummary } from './services/dashboard'
@@ -65,6 +67,12 @@ function StockDetailsRoute({ stockId, theme, setTheme, navigate }) {
   return <AppLayout path="/stocks" user={user} theme={theme} onToggleTheme={() => setTheme(theme === 'dark' ? 'light' : 'dark')} onNavigate={navigate} onLogout={exitToLogin}><StockDetailsPage stockId={stockId} onBack={() => navigate('/dashboard')} onUnauthorized={exitToLogin} /></AppLayout>
 }
 
+function SearchRoute({ theme, setTheme, navigate }) {
+  const { user, logout } = useAuth()
+  const exitToLogin = () => { logout(); navigate('/login') }
+  return <AppLayout path="/search" user={user} theme={theme} onToggleTheme={() => setTheme(theme === 'dark' ? 'light' : 'dark')} onNavigate={navigate} onLogout={exitToLogin}><Search onNavigate={navigate} onUnauthorized={exitToLogin} /></AppLayout>
+}
+
 function AppContent() {
   const { user, loading, login, signup, logout } = useAuth()
   const [path, navigate] = usePath()
@@ -85,6 +93,7 @@ function AppContent() {
   if (path === '/watchlists') return <WatchlistsRoute theme={theme} setTheme={setTheme} navigate={navigate} />
   if (/^\/watchlists\/\d+$/.test(path)) return <WatchlistDetailsRoute watchlistId={path.split('/')[2]} theme={theme} setTheme={setTheme} navigate={navigate} />
   if (/^\/stocks\/\d+$/.test(path)) return <StockDetailsRoute stockId={path.split('/')[2]} theme={theme} setTheme={setTheme} navigate={navigate} />
+  if (path === '/search') return <SearchRoute theme={theme} setTheme={setTheme} navigate={navigate} />
   if (path === '/stocks') return <ProtectedPage title="Stocks" path={path} user={user} theme={theme} setTheme={setTheme} navigate={navigate} logout={logout} />
   if (path.startsWith('/stock/') || path.startsWith('/watchlist/')) return <ProtectedPage title="MarketLens detail" path={path} user={user} theme={theme} setTheme={setTheme} navigate={navigate} logout={logout} />
   navigate(user ? '/dashboard' : '/login')
@@ -92,7 +101,7 @@ function AppContent() {
 }
 
 function App() {
-  return <AuthProvider><AppContent /></AuthProvider>
+  return <ErrorBoundary><AuthProvider><AppContent /></AuthProvider></ErrorBoundary>
 }
 
 export default App
