@@ -8,7 +8,13 @@ export default function Stocks({ onNavigate, onUnauthorized }) {
   const [error, setError] = useState(null)
   const [retryKey, setRetryKey] = useState(0)
   const [currentPage, setCurrentPage] = useState(0)
+  const [searchTerm, setSearchTerm] = useState('')
   const pageSize = 5
+
+  const filteredStocks = stocks.filter(stock =>
+    stock.company_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    stock.symbol.toLowerCase().includes(searchTerm.toLowerCase())
+  )
 
   useEffect(() => {
     const loadStocks = async () => {
@@ -38,6 +44,13 @@ export default function Stocks({ onNavigate, onUnauthorized }) {
             <h1>Stocks</h1>
             <p className="muted">Browse the stock catalogue</p>
           </div>
+          <input
+            type="text"
+            placeholder="Search by company name or symbol..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="stock-search-input"
+          />
         </div>
         <div className="message-shell">
           <div className="message-card">
@@ -71,6 +84,13 @@ export default function Stocks({ onNavigate, onUnauthorized }) {
             <h1>Stocks</h1>
             <p className="muted">Browse the stock catalogue</p>
           </div>
+          <input
+            type="text"
+            placeholder="Search by company name or symbol..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="stock-search-input"
+          />
         </div>
         <div className="stocks-list">
           <div className="skeleton stock-row-skeleton" />
@@ -91,6 +111,13 @@ export default function Stocks({ onNavigate, onUnauthorized }) {
             <h1>Stocks</h1>
             <p className="muted">Browse the stock catalogue</p>
           </div>
+          <input
+            type="text"
+            placeholder="Search by company name or symbol..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="stock-search-input"
+          />
         </div>
         <div className="watchlist-empty">
           <h2>No stocks available</h2>
@@ -108,26 +135,40 @@ export default function Stocks({ onNavigate, onUnauthorized }) {
           <h1>Stocks</h1>
           <p className="muted">Browse the stock catalogue</p>
         </div>
+        <input
+          type="text"
+          placeholder="Search by company name or symbol..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="stock-search-input"
+        />
       </div>
-      <div className="stocks-list">
-        {stocks.map((stock) => (
-          <button
-            key={stock.id}
-            className="stock-row"
-            type="button"
-            onClick={() => onNavigate(`/stocks/${stock.id}`)}
-          >
-            <div className="stock-row-content">
-              <strong className="stock-company">{stock.company_name}</strong>
-              <div className="stock-details">
-                <span className="stock-symbol">{stock.symbol}</span>
-                <span className="stock-exchange">{stock.exchange || 'N/A'}</span>
+      {filteredStocks.length === 0 ? (
+        <div className="watchlist-empty">
+          <h2>No stocks found</h2>
+          <p>{searchTerm ? 'Try a different search term.' : 'The stock catalogue is currently empty.'}</p>
+        </div>
+      ) : (
+        <div className="stocks-list">
+          {filteredStocks.map((stock) => (
+            <button
+              key={stock.id}
+              className="stock-row"
+              type="button"
+              onClick={() => onNavigate(`/stocks/${stock.id}`)}
+            >
+              <div className="stock-row-content">
+                <strong className="stock-company">{stock.company_name}</strong>
+                <div className="stock-details">
+                  <span className="stock-symbol">{stock.symbol}</span>
+                  <span className="stock-exchange">{stock.exchange || 'N/A'}</span>
+                </div>
               </div>
-            </div>
-            <span className="stock-arrow">→</span>
-          </button>
-        ))}
-      </div>
+              <span className="stock-arrow">→</span>
+            </button>
+          ))}
+        </div>
+      )}
       {pagination && (
         <div className="pagination-controls">
           <button
