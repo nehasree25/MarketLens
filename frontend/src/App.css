@@ -153,3 +153,396 @@ footer { width: min(1250px, 90vw); margin: 0 auto; padding: 0 0 28px; color: var
 /* Light mode button text color overrides */
 :root[data-theme='light'] .primary-button { color: #ffffff; }
 :root[data-theme='light'] .danger-button { color: #ffffff; }
+
+/* Light mode comprehensive fixes */
+:root[data-theme='light'] h1 { color: #0f4a63; }
+:root[data-theme='light'] h2 { color: #0f4a63; }
+:root[data-theme='light'] .eyebrow { color: #079db5; }
+:root[data-theme='light'] .nav-link { color: #486f85; }
+:root[data-theme='light'] .nav-link.active { color: #079db5; }
+:root[data-theme='light'] .nav-link.active::after { background: #079db5; box-shadow: 0 0 10px rgba(7, 157, 181, .3); }
+:root[data-theme='light'] .topbar { border-bottom: 1px solid #9db5c8; }
+:root[data-theme='light'] .search-box { border: 1px solid #7a94ac; color: #486f85; background: #ffffff; }
+:root[data-theme='light'] .search-box input { color: #123b5d; }
+:root[data-theme='light'] .search-box input::placeholder { color: #6d8799; }
+:root[data-theme='light'] .icon-button, :root[data-theme='light'] .profile-button { border: 1px solid #7a94ac; color: #123b5d; background: #ffffff; }
+:root[data-theme='light'] .menu-chevron { color: #6d8799; }
+:root[data-theme='light'] .user-dropdown { border: 1px solid #7a94ac; background: #ffffff; }
+:root[data-theme='light'] .dropdown-identity { border-bottom: 1px solid #9db5c8; }
+:root[data-theme='light'] .dropdown-identity strong { color: #123b5d; }
+:root[data-theme='light'] .dropdown-identity small { color: #6d8799; }
+:root[data-theme='light'] .user-dropdown > button:hover { color: #079db5; background: rgba(7, 157, 181, .12); }
+:root[data-theme='light'] .avatar { background: rgba(7, 157, 181, .12); color: #079db5; }
+:root[data-theme='light'] .panel { background: #ffffff; border: 1px solid #9db5c8; }
+:root[data-theme='light'] .panel-icon { color: #079db5; }
+:root[data-theme='light'] .total-number { color: #079db5; }
+:root[data-theme='light'] .stat-row { color: #6d8799; }
+:root[data-theme='light'] .stat-row strong { color: #079db5; }
+:root[data-theme='light'] .stat-list { border-top: 1px solid #9db5c8; }
+:root[data-theme='light'] .muted { color: #6d8799; }
+:root[data-theme='light'] table { color: #123b5d; }
+:root[data-theme='light'] th { color: #486f85; }
+:root[data-theme='light'] td { border-top: 1px solid #9db5c8; color: #123b5d; }
+:root[data-theme='light'] .stock-name strong { color: #123b5d; }
+:root[data-theme='light'] .stock-name span { color: #6d8799; }
+:root[data-theme='light'] .form-error { color: #ff647c; }
+:root[data-theme='light'] .check-success { border: 1px solid #079db5; color: #079db5; background: rgba(7, 157, 181, .12); }
+:root[data-theme='light'] .dialog { background: #ffffff; border: 1px solid #7a94ac; }
+:root[data-theme='light'] .dialog-label { color: #486f85; }
+:root[data-theme='light'] .dialog-label input { color: #123b5d; background: #ffffff; border: 1px solid #9db5c8; }
+:root[data-theme='light'] .dialog-label input:focus { border-color: #079db5; }
+:root[data-theme='light'] .secondary-button { color: #486f85; border: 1px solid #9db5c8; background: #ffffff; }
+:root[data-theme='light'] .secondary-button:hover { border-color: #079db5; color: #079db5; }
+:root[data-theme='light'] .back-link { color: #079db5; }
+:root[data-theme='light'] .detail-stock-row { border-bottom: 1px solid #9db5c8; color: #123b5d; }
+:root[data-theme='light'] .detail-stock-row strong { color: #123b5d; }
+:root[data-theme='light'] .detail-stock-row span { color: #6d8799; }
+:root[data-theme='light'] .discovery-search { border: 1px solid #7a94ac; color: #486f85; background: #ffffff; }
+:root[data-theme='light'] .discovery-search input { color: #123b5d; }
+:root[data-theme='light'] .discovery-search input::placeholder { color: #6d8799; }
+:root[data-theme='light'] .discovery-search:focus-within { border-color: #079db5; box-shadow: 0 0 0 3px rgba(7, 157, 181, .12); }
+:root[data-theme='light'] .discovery-result { background: #ffffff; border: 1px solid #9db5c8; }
+:root[data-theme='light'] .discovery-result strong { color: #123b5d; }
+:root[data-theme='light'] .discovery-result span { color: #6d8799; }
+:root[data-theme='light'] .discovery-state { border: 1px dashed #7a94ac; color: #6d8799; }
+:root[data-theme='light'] .discovery-state strong { color: #486f85; }
+:root[data-theme='light'] .watchlist-card { background: #ffffff; border: 1px solid #9db5c8; }
+:root[data-theme='light'] .watchlist-card h2 { color: #123b5d; }
+:root[data-theme='light'] .watchlist-count { color: #486f85; }
+:root[data-theme='light'] .watchlist-actions button { border: 1px solid #9db5c8; color: #486f85; background: #ffffff; }
+:root[data-theme='light'] .watchlist-actions .watchlist-open { color: #079db5; border-color: #079db5; background: rgba(7, 157, 181, .12); }
+:root[data-theme='light'] .watchlist-empty { border: 1px dashed #7a94ac; background: #ffffff; }
+:root[data-theme='light'] .watchlist-empty h2 { color: #123b5d; }
+:root[data-theme='light'] .watchlist-empty p { color: #6d8799; }
+:root[data-theme='light'] .change-card { background: #ffffff; border: 1px solid #9db5c8; }
+:root[data-theme='light'] .change-card-header strong { color: #123b5d; }
+:root[data-theme='light'] .change-card-header span { color: #6d8799; }
+:root[data-theme='light'] .change-price strong { color: #123b5d; }
+:root[data-theme='light'] .change-metrics { color: #486f85; }
+:root[data-theme='light'] .change-reason { color: #0f4a63; }
+:root[data-theme='light'] .change-factors { border-top: 1px solid #9db5c8; }
+:root[data-theme='light'] .change-factors span { color: #6d8799; }
+:root[data-theme='light'] .change-factors strong { color: #486f85; }
+:root[data-theme='light'] .direction { color: #486f85; background: #e8f0f7; }
+:root[data-theme='light'] .direction.up { color: #079db5; }
+:root[data-theme='light'] .direction.down { color: #ff647c; }
+:root[data-theme='light'] .status-pill { border: 1px solid #9db5c8; color: #486f85; background: #ffffff; }
+:root[data-theme='light'] .attention-badge { border-radius: 5px; }
+:root[data-theme='light'] .attention-badge.high { color: #ff647c; background: rgba(255, 100, 124, .12); }
+:root[data-theme='light'] .attention-badge.notable { color: #ffad59; background: rgba(255, 173, 89, .12); }
+:root[data-theme='light'] .attention-badge.mild { color: #f0cf64; background: rgba(240, 207, 100, .12); }
+:root[data-theme='light'] .attention-badge.quiet { color: #6d8799; background: rgba(109, 135, 153, .12); }
+:root[data-theme='light'] .baseline-callout { border: 1px solid #079db5; background: rgba(7, 157, 181, .12); }
+:root[data-theme='light'] .baseline-callout strong { color: #123b5d; }
+:root[data-theme='light'] .baseline-callout span { color: #486f85; }
+:root[data-theme='light'] .baseline-update-row { background: #f4f8fb; color: #486f85; border: 1px solid #9db5c8; }
+:root[data-theme='light'] .check-stock-button { border: 1px solid #079db5; color: #079db5; background: rgba(7, 157, 181, .12); }
+:root[data-theme='light'] .remove-stock-button { border: 1px solid #ff647c; color: #ff647c; background: #ffffff; }
+:root[data-theme='light'] .change-summary { gap: 10px; }
+:root[data-theme='light'] .change-summary > div { background: #ffffff; border: 1px solid #9db5c8; }
+:root[data-theme='light'] .change-summary span { color: #486f85; }
+:root[data-theme='light'] .change-summary strong { color: #123b5d; }
+:root[data-theme='light'] .control-select { border: 1px solid #9db5c8; color: #123b5d; background: #ffffff; }
+:root[data-theme='light'] .control-label { color: #486f85; }
+:root[data-theme='light'] .reset-button { color: #486f85; border: 1px solid #9db5c8; background: #ffffff; }
+:root[data-theme='light'] .reset-button:hover { color: #079db5; border-color: #079db5; }
+:root[data-theme='light'] .filter-sort-controls { color: #486f85; }
+:root[data-theme='light'] .mover-row { border-bottom: 1px solid #9db5c8; }
+:root[data-theme='light'] .mover-row strong { color: #123b5d; }
+:root[data-theme='light'] .mover-row span { color: #6d8799; }
+:root[data-theme='light'] .empty-table strong { color: #123b5d; }
+:root[data-theme='light'] .empty-table span { color: #6d8799; }
+:root[data-theme='light'] .market-values { gap: 1px; }
+:root[data-theme='light'] .market-values > div { background: #ffffff; }
+:root[data-theme='light'] .market-values span { color: #6d8799; }
+:root[data-theme='light'] .market-values strong { color: #123b5d; }
+:root[data-theme='light'] .info-grid { gap: 1px; }
+:root[data-theme='light'] .info-grid > div { background: #ffffff; }
+:root[data-theme='light'] .info-grid span { color: #6d8799; }
+:root[data-theme='light'] .info-grid strong { color: #123b5d; }
+:root[data-theme='light'] .attention-hero strong { color: #079db5; }
+:root[data-theme='light'] .attention-reason { color: #0f4a63; }
+:root[data-theme='light'] .skeleton { background: linear-gradient(90deg, #e8f0f7 25%, #f4f8fb 50%, #e8f0f7 75%); }
+:root[data-theme='light'] footer { color: #6d8799; }
+:root[data-theme='light'] footer span { color: #079db5; }
+:root[data-theme='light'] .pagination-button { border: 1px solid #9db5c8; color: #486f85; background: #ffffff; }
+:root[data-theme='light'] .pagination-button:hover:not(:disabled) { border-color: #079db5; color: #079db5; }
+:root[data-theme='light'] .pagination-info { color: #486f85; }
+:root[data-theme='light'] .stock-row { background: #ffffff; border: 1px solid #9db5c8; }
+:root[data-theme='light'] .stock-company { color: #123b5d; }
+:root[data-theme='light'] .stock-symbol { color: #6d8799; }
+:root[data-theme='light'] .stock-exchange { color: #6d8799; }
+:root[data-theme='light'] .stock-arrow { color: #486f85; }
+
+
+/* ===== NAVBAR ===== */
+:root[data-theme='light'] .brand-lockup strong { color: #123b5d; }
+:root[data-theme='light'] .brand-mark { border: 1px solid #079db5; box-shadow: 0 0 18px rgba(7, 157, 181, .2); }
+:root[data-theme='light'] .brand-mark span { border: 2px solid #079db5; }
+:root[data-theme='light'] .profile-copy strong { color: #123b5d; }
+:root[data-theme='light'] .profile-copy small { color: #6d8799; }
+
+/* ===== DASHBOARD ===== */
+:root[data-theme='light'] .welcome-row { color: #123b5d; }
+:root[data-theme='light'] .api-chip { color: #6d8799; }
+:root[data-theme='light'] .api-chip i { background: #079db5; box-shadow: 0 0 9px rgba(7, 157, 181, .5); }
+:root[data-theme='light'] .live-indicator i { background: #079db5; box-shadow: 0 0 9px rgba(7, 157, 181, .5); }
+:root[data-theme='light'] .donut-hole { background: #ffffff; }
+:root[data-theme='light'] .donut-hole strong { color: #079db5; }
+:root[data-theme='light'] .donut-hole span { color: #6d8799; }
+:root[data-theme='light'] .legend-swatch { background: #6d8799; }
+:root[data-theme='light'] .legend-swatch.high { background: #ff647c; }
+:root[data-theme='light'] .legend-swatch.notable { background: #ffad59; }
+:root[data-theme='light'] .legend-swatch.mild { background: #f0cf64; }
+:root[data-theme='light'] .status-dot { background: #6d8799; }
+:root[data-theme='light'] .status-dot.high { background: #ff647c; }
+:root[data-theme='light'] .status-dot.notable { background: #ffad59; }
+:root[data-theme='light'] .status-dot.mild { background: #f0cf64; }
+:root[data-theme='light'] .numeric { color: #123b5d; }
+:root[data-theme='light'] .score { color: #079db5; }
+
+/* ===== WATCHLISTS ===== */
+:root[data-theme='light'] .watchlists-heading { color: #123b5d; }
+:root[data-theme='light'] .create-watchlist-button { border: none; background: #079db5; color: #ffffff; }
+:root[data-theme='light'] .watchlist-symbol { border: 1px solid #079db5; color: #079db5; background: rgba(7, 157, 181, .12); }
+:root[data-theme='light'] .watchlist-date { color: #6d8799; }
+:root[data-theme='light'] .empty-watchlist-icon { border: 1px solid #079db5; color: #079db5; background: rgba(7, 157, 181, .12); }
+:root[data-theme='light'] .watchlist-actions button:disabled { opacity: .6; }
+
+/* ===== WATCHLIST DETAILS ===== */
+:root[data-theme='light'] .detail-heading { color: #123b5d; }
+:root[data-theme='light'] .detail-heading h1 { color: #0f4a63; }
+:root[data-theme='light'] .detail-count { color: #079db5; }
+:root[data-theme='light'] .changes-heading h2 { color: #123b5d; }
+:root[data-theme='light'] .changes-heading .muted { color: #6d8799; }
+:root[data-theme='light'] .change-summary .summary-high strong { color: #ff647c; }
+:root[data-theme='light'] .change-summary .summary-notable strong { color: #ffad59; }
+:root[data-theme='light'] .change-summary .summary-mild strong { color: #f0cf64; }
+:root[data-theme='light'] .change-summary .summary-quiet strong { color: #6d8799; }
+:root[data-theme='light'] .stock-row-skeleton { background: linear-gradient(90deg, #e8f0f7 25%, #f4f8fb 50%, #e8f0f7 75%); }
+
+/* ===== STOCKS PAGE ===== */
+:root[data-theme='light'] .stocks-content h1 { color: #0f4a63; }
+:root[data-theme='light'] .stocks-heading { color: #123b5d; }
+:root[data-theme='light'] .stock-row-skeleton { background: linear-gradient(90deg, #e8f0f7 25%, #f4f8fb 50%, #e8f0f7 75%); }
+:root[data-theme='light'] .stock-row:hover { border-color: #079db5; }
+
+/* ===== STOCK DETAILS ===== */
+:root[data-theme='light'] .stock-details-content h1 { color: #0f4a63; }
+:root[data-theme='light'] .stock-identity h1 { color: #0f4a63; }
+:root[data-theme='light'] .stock-subtitle { color: #486f85; }
+:root[data-theme='light'] .stock-active { border: 1px solid #079db5; color: #079db5; background: rgba(7, 157, 181, .12); }
+:root[data-theme='light'] .resource-unavailable { color: #6d8799; }
+:root[data-theme='light'] .attention-panel h2 { color: #123b5d; }
+
+/* ===== FORMS & INPUTS ===== */
+:root[data-theme='light'] .login-card { background: #ffffff; border: 1px solid #9db5c8; box-shadow: 0 2px 8px rgba(31, 73, 97, .12); }
+:root[data-theme='light'] .login-card h1 { color: #0f4a63; }
+:root[data-theme='light'] .login-card label { color: #486f85; }
+:root[data-theme='light'] .login-card input { color: #123b5d; border: 1px solid #9db5c8; background: #ffffff; }
+:root[data-theme='light'] .login-card input:focus { border-color: #079db5; }
+:root[data-theme='light'] .auth-switch { color: #6d8799; }
+:root[data-theme='light'] .auth-switch button { color: #079db5; }
+:root[data-theme='light'] .stock-search-input { border: 1px solid #7a94ac; color: #123b5d; background: #ffffff; }
+:root[data-theme='light'] .stock-search-input::placeholder { color: #6d8799; }
+:root[data-theme='light'] .stock-search-input:focus { border-color: #079db5; }
+:root[data-theme='light'] .search-results { background: #ffffff; }
+:root[data-theme='light'] .search-result { color: #123b5d; border-bottom: 1px solid #9db5c8; }
+:root[data-theme='light'] .search-result strong { color: #123b5d; }
+:root[data-theme='light'] .search-result span { color: #6d8799; }
+
+/* ===== DIALOGS & MODALS ===== */
+:root[data-theme='light'] .dialog-backdrop { background: rgba(3, 14, 25, .4); }
+:root[data-theme='light'] .dialog-header h2 { color: #0f4a63; }
+:root[data-theme='light'] .dialog-close { color: #6d8799; }
+:root[data-theme='light'] .delete-dialog h2 { color: #0f4a63; }
+:root[data-theme='light'] .delete-dialog p { color: #486f85; }
+:root[data-theme='light'] .baseline-dialog h2 { color: #0f4a63; }
+:root[data-theme='light'] .baseline-dialog p { color: #486f85; }
+:root[data-theme='light'] .message-card { background: #ffffff; border: 1px solid #9db5c8; box-shadow: 0 2px 8px rgba(31, 73, 97, .12); }
+:root[data-theme='light'] .message-card h1 { color: #0f4a63; }
+:root[data-theme='light'] .message-card h2 { color: #0f4a63; }
+:root[data-theme='light'] .message-card p { color: #486f85; }
+
+/* ===== BADGES & STATUS ===== */
+:root[data-theme='light'] .positive { color: #079db5 !important; }
+:root[data-theme='light'] .negative { color: #ff647c !important; }
+
+/* ===== EMPTY/ERROR/LOADING ===== */
+:root[data-theme='light'] .empty-hero h2 { color: #0f4a63; }
+:root[data-theme='light'] .empty-hero p { color: #6d8799; }
+:root[data-theme='light'] .empty-table strong { color: #0f4a63; }
+:root[data-theme='light'] .message-shell { background: linear-gradient(135deg, #dce8f2 0%, #e8f0f7 100%); }
+:root[data-theme='light'] .message-icon { background: rgba(255, 100, 124, .12); color: #ff647c; }
+:root[data-theme='light'] .watchlist-message { border: 1px dashed #9db5c8; background: #ffffff; }
+:root[data-theme='light'] .watchlist-message h2 { color: #0f4a63; }
+
+/* ===== DISCOVERY/SEARCH ===== */
+:root[data-theme='light'] .discovery-content h1 { color: #0f4a63; }
+:root[data-theme='light'] .discovery-heading p { color: #6d8799; }
+:root[data-theme='light'] .discovery-result > div:first-child { color: #123b5d; }
+:root[data-theme='light'] .discovery-actions .secondary-button { color: #486f85; border: 1px solid #9db5c8; background: #ffffff; }
+:root[data-theme='light'] .discovery-actions .secondary-button:hover { color: #079db5; border-color: #079db5; }
+
+/* ===== MARKET DATA PANEL ===== */
+:root[data-theme='light'] .current-market-panel h2 { color: #123b5d; }
+:root[data-theme='light'] .detail-info-panel h2 { color: #123b5d; }
+:root[data-theme='light'] .attention-panel h2 { color: #123b5d; }
+:root[data-theme='light'] .state-panel h2 { color: #123b5d; }
+
+/* ===== LOADING SKELETON ===== */
+:root[data-theme='light'] .hero-skeleton { background: linear-gradient(90deg, #e8f0f7 25%, #f4f8fb 50%, #e8f0f7 75%); background-size: 200% 100%; }
+:root[data-theme='light'] .card-skeleton { background: linear-gradient(90deg, #e8f0f7 25%, #f4f8fb 50%, #e8f0f7 75%); background-size: 200% 100%; }
+:root[data-theme='light'] .table-skeleton { background: linear-gradient(90deg, #e8f0f7 25%, #f4f8fb 50%, #e8f0f7 75%); background-size: 200% 100%; }
+:root[data-theme='light'] .stock-hero-skeleton { background: linear-gradient(90deg, #e8f0f7 25%, #f4f8fb 50%, #e8f0f7 75%); background-size: 200% 100%; }
+:root[data-theme='light'] .stock-panel-skeleton { background: linear-gradient(90deg, #e8f0f7 25%, #f4f8fb 50%, #e8f0f7 75%); background-size: 200% 100%; }
+:root[data-theme='light'] .discovery-skeleton { background: linear-gradient(90deg, #e8f0f7 25%, #f4f8fb 50%, #e8f0f7 75%); background-size: 200% 100%; }
+:root[data-theme='light'] .watchlist-skeleton { background: linear-gradient(90deg, #e8f0f7 25%, #f4f8fb 50%, #e8f0f7 75%); background-size: 200% 100%; }
+:root[data-theme='light'] .detail-skeleton { background: linear-gradient(90deg, #e8f0f7 25%, #f4f8fb 50%, #e8f0f7 75%); background-size: 200% 100%; }
+
+/* ===== RESPONSIVE & UTILITY ===== */
+:root[data-theme='light'] .mobile-nav { background: #ffffff; border-bottom: 1px solid #9db5c8; }
+:root[data-theme='light'] .mobile-nav-link { color: #6d8799; }
+:root[data-theme='light'] .mobile-nav-link.active { color: #079db5; border: 1px solid #9db5c8; background: rgba(7, 157, 181, .12); }
+:root[data-theme='light'] .mobile-nav-divider { background: #9db5c8; }
+:root[data-theme='light'] .mobile-nav-option { color: #486f85; }
+:root[data-theme='light'] .sr-only { clip: rect(0, 0, 0, 0); }
+
+
+/* ===== LIGHT THEME TYPOGRAPHY IMPROVEMENTS ===== */
+
+/* Main page headings */
+:root[data-theme='light'] h1 { color: #0F3554; }
+
+/* Section headings */
+:root[data-theme='light'] h2 { color: #174F70; }
+
+/* Card headings */
+:root[data-theme='light'] .panel-heading h2 { color: #164765; }
+:root[data-theme='light'] .change-card-header strong { color: #173F5C; }
+:root[data-theme='light'] .stock-name strong { color: #173F5C; }
+:root[data-theme='light'] .watchlist-card h2 { color: #164765; }
+:root[data-theme='light'] .detail-heading h1 { color: #0F3554; }
+
+/* Primary body text */
+:root[data-theme='light'] p { color: #234E68; }
+:root[data-theme='light'] span { color: #234E68; }
+:root[data-theme='light'] .stock-company { color: #173F5C; }
+:root[data-theme='light'] table { color: #173F5C; }
+:root[data-theme='light'] td { color: #173F5C; }
+
+/* Secondary text */
+:root[data-theme='light'] .stock-symbol { color: #3F647A; }
+:root[data-theme='light'] .stock-exchange { color: #3F647A; }
+:root[data-theme='light'] .stock-subtitle { color: #3F647A; }
+:root[data-theme='light'] .stock-name span { color: #3F647A; }
+:root[data-theme='light'] .change-card-header span { color: #3F647A; }
+:root[data-theme='light'] .discovery-result strong { color: #173F5C; }
+:root[data-theme='light'] .detail-stock-row strong { color: #173F5C; }
+
+/* Muted/metadata text */
+:root[data-theme='light'] .muted { color: #557487; }
+:root[data-theme='light'] .market-values span { color: #557487; }
+:root[data-theme='light'] .info-grid span { color: #557487; }
+:root[data-theme='light'] .change-factors span { color: #557487; }
+:root[data-theme='light'] .stat-row { color: #557487; }
+:root[data-theme='light'] .mover-row span { color: #557487; }
+:root[data-theme='light'] .eyebrow { color: #087F99; }
+
+/* Small metadata */
+:root[data-theme='light'] .stat-list { color: #5B788A; }
+:root[data-theme='light'] .empty-table span { color: #5B788A; }
+:root[data-theme='light'] .watchlist-date { color: #5B788A; }
+:root[data-theme='light'] .watchlist-count { color: #5B788A; }
+
+/* Table headers */
+:root[data-theme='light'] th { color: #365D73; }
+
+/* Primary values (prices, numbers) */
+:root[data-theme='light'] .market-values strong { color: #173F5C; }
+:root[data-theme='light'] .info-grid strong { color: #173F5C; }
+:root[data-theme='light'] .numeric { color: #173F5C; }
+:root[data-theme='light'] .total-number { color: #078EA5; }
+:root[data-theme='light'] .change-price strong { color: #173F5C; }
+
+/* Descriptions and reasons */
+:root[data-theme='light'] .change-reason { color: #45697D; }
+:root[data-theme='light'] .attention-reason { color: #45697D; }
+:root[data-theme='light'] .empty-table strong { color: #0F3554; }
+:root[data-theme='light'] .watchlist-empty h2 { color: #0F3554; }
+:root[data-theme='light'] .empty-hero h2 { color: #0F3554; }
+
+/* Links and accents */
+:root[data-theme='light'] .back-link { color: #087F99; }
+:root[data-theme='light'] .score { color: #078EA5; }
+:root[data-theme='light'] .stat-row strong { color: #078EA5; }
+
+/* Navbar text */
+:root[data-theme='light'] .brand-lockup strong { color: #123B5D; }
+:root[data-theme='light'] .nav-link { color: #3F647A; }
+:root[data-theme='light'] .nav-link.active { color: #087F99; }
+:root[data-theme='light'] .profile-copy strong { color: #123B5D; }
+
+/* Form labels and text */
+:root[data-theme='light'] .dialog-label { color: #3F647A; }
+:root[data-theme='light'] .dialog-label input { color: #173F5C; }
+:root[data-theme='light'] .login-card h1 { color: #0F3554; }
+:root[data-theme='light'] .login-card label { color: #3F647A; }
+:root[data-theme='light'] .login-card input { color: #173F5C; }
+:root[data-theme='light'] .control-label { color: #3F647A; }
+
+/* Button text */
+:root[data-theme='light'] .secondary-button { color: #3F647A; }
+:root[data-theme='light'] .dialog-close { color: #5B788A; }
+
+/* Status and semantic text */
+:root[data-theme='light'] .baseline-callout strong { color: #123B5D; }
+:root[data-theme='light'] .baseline-callout span { color: #3F647A; }
+:root[data-theme='light'] .direction { color: #3F647A; }
+
+/* Discovery/search text */
+:root[data-theme='light'] .discovery-result span { color: #5B788A; }
+:root[data-theme='light'] .discovery-state strong { color: #3F647A; }
+:root[data-theme='light'] .discovery-state { color: #5B788A; }
+
+/* Footer text */
+:root[data-theme='light'] footer { color: #4F6E80; }
+
+/* Dialogs and messages */
+:root[data-theme='light'] .message-card h2 { color: #0F3554; }
+:root[data-theme='light'] .message-card p { color: #3F647A; }
+:root[data-theme='light'] .delete-dialog h2 { color: #0F3554; }
+:root[data-theme='light'] .delete-dialog p { color: #3F647A; }
+:root[data-theme='light'] .baseline-dialog h2 { color: #0F3554; }
+:root[data-theme='light'] .baseline-dialog p { color: #3F647A; }
+
+/* Input text and placeholders */
+:root[data-theme='light'] .search-box input { color: #173F5C; }
+:root[data-theme='light'] .discovery-search input { color: #173F5C; }
+:root[data-theme='light'] .stock-search-input { color: #173F5C; }
+:root[data-theme='light'] input::placeholder { color: #557487; }
+:root[data-theme='light'] .search-box input::placeholder { color: #557487; }
+:root[data-theme='light'] .discovery-search input::placeholder { color: #557487; }
+:root[data-theme='light'] .stock-search-input::placeholder { color: #557487; }
+
+/* Search results */
+:root[data-theme='light'] .search-result { color: #173F5C; }
+:root[data-theme='light'] .search-result strong { color: #173F5C; }
+:root[data-theme='light'] .search-result span { color: #5B788A; }
+
+/* Mobile navigation */
+:root[data-theme='light'] .mobile-nav-link { color: #5B788A; }
+:root[data-theme='light'] .mobile-nav-link.active { color: #087F99; }
+:root[data-theme='light'] .mobile-nav-option { color: #3F647A; }
+
+/* Filter and sort controls */
+:root[data-theme='light'] .control-select { color: #173F5C; }
+:root[data-theme='light'] .reset-button { color: #3F647A; }
+
+/* Pagination */
+:root[data-theme='light'] .pagination-button { color: #3F647A; }
+:root[data-theme='light'] .pagination-info { color: #3F647A; }
+
+/* Changes and movers */
+:root[data-theme='light'] .change-metrics { color: #3F647A; }
+:root[data-theme='light'] .mover-row strong { color: #173F5C; }
