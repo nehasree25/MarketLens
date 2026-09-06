@@ -1,0 +1,3 @@
+export default function RemoveStockDialog({ stock, removing, error, onClose, onConfirm }) {
+  return <div className="dialog-backdrop" role="presentation"><div className="dialog delete-dialog" role="dialog" aria-modal="true" aria-labelledby="remove-stock-title"><span className="message-icon">!</span><h2 id="remove-stock-title">Remove stock?</h2><p>Remove <strong>{stock.symbol}</strong> from this watchlist?</p>{error && <p className="form-error">{error}</p>}<div className="dialog-actions"><button className="secondary-button" type="button" onClick={onClose}>Cancel</button><button className="danger-button" type="button" disabled={removing} onClick={onConfirm}>{removing ? 'Removing...' : 'Remove'}</button></div></div></div>
+}
