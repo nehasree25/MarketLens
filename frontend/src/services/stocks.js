@@ -1,11 +1,11 @@
 import { apiRequest } from './api'
 
-export function getStocks() {
-  return apiRequest('/stocks')
+export function getStocks(skip = 0, limit = 5) {
+  return apiRequest(`/stocks?skip=${skip}&limit=${limit}`)
 }
 
-export function searchStocks(query) {
-  return apiRequest(`/stocks/search?q=${encodeURIComponent(query.trim())}`)
+export function searchStocks(query, skip = 0, limit = 5) {
+  return apiRequest(`/stocks/search?q=${encodeURIComponent(query.trim())}&skip=${skip}&limit=${limit}`)
 }
 
 export function checkStock(stockId) {

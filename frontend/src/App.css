@@ -131,3 +131,25 @@ footer { width: min(1250px, 90vw); margin: 0 auto; padding: 0 0 28px; color: var
   .stock-symbol { font-size: 10px; }
   .stock-exchange { font-size: 8px; padding: 3px 6px; }
 }
+
+.pagination-controls { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 32px; padding: 24px 0; }
+.pagination-button { border: 1px solid var(--border-strong); border-radius: 6px; padding: 11px 14px; color: var(--text-secondary); background: var(--input); font-size: 11px; cursor: pointer; }
+.pagination-button:disabled { opacity: .5; cursor: not-allowed; }
+.pagination-button:not(:disabled):hover { border-color: var(--accent); color: var(--accent); }
+.pagination-info { color: var(--text-secondary); font: 11px 'DM Mono', monospace; }
+.stocks-content { min-height: calc(100vh - 76px); }
+.stocks-heading { margin-bottom: 30px; }
+.stocks-list { display: grid; gap: 10px; }
+.stock-row { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 18px 20px; border: 1px solid var(--border); border-radius: 9px; background: var(--surface-2); box-shadow: var(--shadow); }
+.stock-row-content { display: grid; gap: 5px; flex: 1; text-align: left; }
+.stock-company { color: var(--text); font-size: 13px; }
+.stock-details { display: flex; align-items: center; gap: 8px; }
+.stock-symbol { color: var(--muted); font: 10px 'DM Mono', monospace; }
+.stock-exchange { color: var(--muted); font: 10px 'DM Mono', monospace; }
+.stock-arrow { color: var(--text-secondary); font-size: 14px; }
+.stock-row:hover { border-color: var(--accent); }
+.stock-row-skeleton { height: 65px; }
+
+/* Light mode button text color overrides */
+:root[data-theme='light'] .primary-button { color: #ffffff; }
+:root[data-theme='light'] .danger-button { color: #ffffff; }

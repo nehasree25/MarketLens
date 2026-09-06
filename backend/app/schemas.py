@@ -264,3 +264,20 @@ class MarketDataResponse(BaseModel):
     close: float
     volume: int
     timestamp: datetime
+
+
+class PaginationMeta(BaseModel):
+    total: int
+    skip: int
+    limit: int
+    has_more: bool
+
+
+class PaginatedStockResponse(BaseModel):
+    data: list[StockResponse]
+    pagination: PaginationMeta
+
+
+class PaginatedUserStockStateResponse(BaseModel):
+    data: list[UserStockStateResponse]
+    pagination: PaginationMeta

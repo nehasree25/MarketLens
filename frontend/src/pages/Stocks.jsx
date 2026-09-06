@@ -2,16 +2,22 @@ import { useEffect, useState } from 'react'
 import { getStocks } from '../services/stocks'
 
 export default function Stocks({ onNavigate, onUnauthorized }) {
-  const [stocks, setStocks] = useState(null)
+  const [response, setResponse] = useState(null)
+  const [stocks, setStocks] = useState([])
+  const [pagination, setPagination] = useState(null)
   const [error, setError] = useState(null)
   const [retryKey, setRetryKey] = useState(0)
+  const [currentPage, setCurrentPage] = useState(0)
+  const pageSize = 5
 
   useEffect(() => {
     const loadStocks = async () => {
       setError(null)
       try {
-        const data = await getStocks()
-        setStocks(data)
+        const data = await getStocks(currentPage * pageSize, pageSize)
+        setResponse(data)
+        setStocks(data.data || [])
+        setPagination(data.pagination || null)
       } catch (err) {
         if (err.status === 401 || err.status === 403) {
           onUnauthorized()
@@ -21,7 +27,7 @@ export default function Stocks({ onNavigate, onUnauthorized }) {
       }
     }
     loadStocks()
-  }, [onUnauthorized, retryKey])
+  }, [onUnauthorized, retryKey, currentPage])
 
   if (error) {
     return (
@@ -43,7 +49,8 @@ export default function Stocks({ onNavigate, onUnauthorized }) {
               type="button"
               onClick={() => {
                 setError(null)
-                setStocks(null)
+                setResponse(null)
+                setStocks([])
                 setRetryKey((key) => key + 1)
               }}
             >
@@ -55,7 +62,7 @@ export default function Stocks({ onNavigate, onUnauthorized }) {
     )
   }
 
-  if (stocks === null) {
+  if (response === null) {
     return (
       <main className="dashboard-content stocks-content">
         <div className="stocks-heading">
@@ -121,6 +128,30 @@ export default function Stocks({ onNavigate, onUnauthorized }) {
           </button>
         ))}
       </div>
+      {pagination && (
+        <div className="pagination-controls">
+          <button
+            type="button"
+            className="pagination-button"
+            onClick={() => setCurrentPage(Math.max(0, currentPage - 1))}
+            disabled={currentPage === 0}
+          >
+            ← Previous
+          </button>
+          <span className="pagination-info">
+            Page {currentPage + 1} of {Math.ceil(pagination.total / pageSize)} ({pagination.total} stocks)
+          </span>
+          <button
+            type="button"
+            className="pagination-button"
+            onClick={() => setCurrentPage(currentPage + 1)}
+            disabled={!pagination.has_more}
+          >
+            Next →
+          </button>
+        </div>
+      )}
     </main>
   )
 }
+

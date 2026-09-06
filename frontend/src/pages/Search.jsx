@@ -70,8 +70,8 @@ export default function Search({ onNavigate, onUnauthorized }) {
     const version = searchVersion.current
     const timer = setTimeout(async () => {
       try {
-        const nextResults = await searchStocks(trimmed)
-        if (version === searchVersion.current) setResults(nextResults)
+        const response = await searchStocks(trimmed, 0, 50)
+        if (version === searchVersion.current) setResults(response.data || [])
       } catch (requestError) {
         if (requestError.status === 401 || requestError.status === 403) onUnauthorized()
         else if (version === searchVersion.current) setError('Unable to search stocks. Please try again.')

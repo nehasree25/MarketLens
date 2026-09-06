@@ -19,6 +19,9 @@ from app.schemas import (
     StockAttentionResponse,
     UserStockCheckResponse,
     UserStockStateResponse,
+    PaginatedStockResponse,
+    PaginatedUserStockStateResponse,
+    PaginationMeta,
 )
 
 router = APIRouter(prefix="/stocks", tags=["Stocks"])
@@ -61,35 +64,79 @@ def seed_initial_stocks(db: Session) -> None:
         db.rollback()
 
 
-@router.get("", response_model=list[StockResponse])
-def list_stocks(db: Session = Depends(get_db)):
-    return (
-        db.query(Stock)
-        .filter(Stock.is_active.is_(True))
+@router.get("", response_model=PaginatedStockResponse)
+def list_stocks(
+    skip: int = Query(0, ge=0),
+    limit: int = Query(5, ge=1, le=100),
+    db: Session = Depends(get_db)
+):
+    query = db.query(Stock).filter(Stock.is_active.is_(True))
+    total = query.count()
+    
+    stocks = (
+        query
         .order_by(Stock.id)
+        .offset(skip)
+        .limit(limit)
         .all()
     )
+    
+    pagination = PaginationMeta(
+        total=total,
+        skip=skip,
+        limit=limit,
+        has_more=(skip + limit) < total
+    )
+    
+    return {
+        "data": stocks,
+        "pagination": pagination
+    }
 
 
-@router.get("/search", response_model=list[StockResponse])
+@router.get("/search", response_model=PaginatedStockResponse)
 def search_stocks(
     q: str = Query(..., min_length=1),
+    skip: int = Query(0, ge=0),
+    limit: int = Query(5, ge=1, le=100),
     db: Session = Depends(get_db),
 ):
-    query = q.strip()
-    if not query:
-        return []
+    query_str = q.strip()
+    if not query_str:
+        return {
+            "data": [],
+            "pagination": PaginationMeta(total=0, skip=skip, limit=limit, has_more=False)
+        }
 
-    search_term = f"%{query}%"
-    return (
+    search_term = f"%{query_str}%"
+    query = (
         db.query(Stock)
         .filter(
             Stock.is_active.is_(True),
             (Stock.symbol.ilike(search_term) | Stock.company_name.ilike(search_term)),
         )
+    )
+    total = query.count()
+    
+    stocks = (
+        query
         .order_by(Stock.id)
+        .offset(skip)
+        .limit(limit)
         .all()
     )
+    
+    pagination = PaginationMeta(
+        total=total,
+        skip=skip,
+        limit=limit,
+        has_more=(skip + limit) < total
+    )
+    
+    return {
+        "data": stocks,
+        "pagination": pagination
+    }
 
 
 def _state_response(stock: Stock, state: UserStockState) -> dict[str, object]:
@@ -200,19 +247,41 @@ def get_stock_state(
     return _state_response(stock, state)
 
 
-@router.get("/states", response_model=list[UserStockStateResponse])
+@router.get("/states", response_model=PaginatedUserStockStateResponse)
 def get_all_stock_states(
+    skip: int = Query(0, ge=0),
+    limit: int = Query(5, ge=1, le=100),
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user),
 ):
-    states = (
+    query = (
         db.query(UserStockState, Stock)
         .join(Stock, Stock.id == UserStockState.stock_id)
         .filter(UserStockState.user_id == current_user.id)
+    )
+    total = query.count()
+    
+    states = (
+        query
         .order_by(UserStockState.last_checked_at.desc())
+        .offset(skip)
+        .limit(limit)
         .all()
     )
-    return [_state_response(stock, state) for state, stock in states]
+    
+    data = [_state_response(stock, state) for state, stock in states]
+    
+    pagination = PaginationMeta(
+        total=total,
+        skip=skip,
+        limit=limit,
+        has_more=(skip + limit) < total
+    )
+    
+    return {
+        "data": data,
+        "pagination": pagination
+    }
 
 
 @router.get("/{stock_id}/changes", response_model=StockChangeResponse)
