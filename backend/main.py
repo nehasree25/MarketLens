@@ -14,6 +14,7 @@ from app.auth import (
     hash_password,
     verify_password,
 )
+from app.dashboard import router as dashboard_router
 from app.database import Base, SessionLocal, engine
 from app.models import (  # noqa: F401
     MarketSnapshot,
@@ -136,6 +137,7 @@ def stop_background_tasks() -> None:
 
 app.include_router(stocks_router)
 app.include_router(watchlists_router)
+app.include_router(dashboard_router)
 app.include_router(market_data_router)
 
 
