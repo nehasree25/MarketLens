@@ -128,6 +128,32 @@ class StockChangeResponse(BaseModel):
     direction: str | None = None
 
 
+class AttentionFactors(BaseModel):
+    price_movement: int
+    volume_change: int
+    important_level: int
+    sustained_movement: int
+
+
+class StockAttentionResponse(BaseModel):
+    stock_id: int
+    symbol: str
+    reference_price: float
+    reference_timestamp: datetime
+    current_price: float
+    current_timestamp: datetime
+    price_change: float | None = None
+    price_change_percent: float | None = None
+    direction: str | None = None
+    attention_score: int
+    attention_level: str
+    factors: AttentionFactors
+    volume_change_percent: float | None = None
+    important_level_crossed: bool
+    sustained_movement: bool
+    reason: str
+
+
 class WatchlistCreate(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
