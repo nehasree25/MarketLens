@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { checkStock, getMarketData, getStock, getStockAttention, getStockChanges, getStockState } from '../services/stocks'
+import { checkStock, getMarketData, getStock, getStockChanges, getStockState } from '../services/stocks'
 
 const value = (item, format = String) => item === null || item === undefined ? 'Unavailable' : format(item)
 const number = (item) => value(item, (current) => Number(current).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 }))
@@ -25,17 +25,18 @@ export default function StockDetailsPage({ stockId, onBack, onUnauthorized }) {
   const loadDetails = useCallback(async () => {
     setLoading(true)
     setErrors({})
+    // Only request endpoints that are actually used in the UI
+    // Removed: getStockAttention (use attention from changes endpoint if available)
     const requests = [
       ['stock', getStock(stockId)],
       ['market', getMarketData(stockId)],
       ['state', getStockState(stockId)],
       ['changes', getStockChanges(stockId)],
-      ['attention', getStockAttention(stockId)],
     ]
     const results = await Promise.all(requests.map(async ([key, request]) => {
       try { return [key, { value: await request }] } catch (error) {
         if (error.status === 401 || error.status === 403) onUnauthorized()
-        return [key, { error: error.status === 404 ? 'Unavailable' : 'Data unavailable' }]
+        return [key, { error: error.status === 404 ? 'Resource unavailable' : 'Data unavailable' }]
       }
     }))
     setResources(Object.fromEntries(results.map(([key, result]) => [key, result.value])))
@@ -65,8 +66,16 @@ export default function StockDetailsPage({ stockId, onBack, onUnauthorized }) {
   const market = resources.market
   const state = resources.state
   const changes = resources.changes
-  const attention = resources.attention
-  const noBaseline = changes?.status === 'NO_BASELINE' || errors.state === 'Unavailable'
+  // Use attention data from changes endpoint if available
+  const attention = changes?.attention_score !== undefined ? {
+    attention_score: changes.attention_score,
+    attention_level: changes.attention_level,
+    volume_change_percent: changes.volume_change_percent,
+    important_level_crossed: changes.important_level_crossed,
+    sustained_movement: changes.sustained_movement,
+    reason: changes.reason,
+  } : null
+  const noBaseline = changes?.status === 'NO_BASELINE' || state === null
   const noNewData = changes?.status === 'NO_NEW_DATA'
   const identity = useMemo(() => stock || changes || {}, [stock, changes])
 
