@@ -194,6 +194,37 @@ class WatchlistResponse(BaseModel):
     created_at: datetime
 
 
+class WatchlistChangeSummary(BaseModel):
+    total_stocks: int
+    high_attention: int
+    notable: int
+    mild: int
+    no_notable_change: int
+
+
+class WatchlistChangeStock(BaseModel):
+    stock_id: int
+    symbol: str
+    current_price: float
+    price_change: float | None = None
+    price_change_percent: float | None = None
+    direction: str | None = None
+    attention_score: int
+    attention_level: str
+    volume_change_percent: float | None = None
+    important_level_crossed: bool
+    sustained_movement: bool
+    reason: str
+    status: str
+
+
+class WatchlistChangesResponse(BaseModel):
+    watchlist_id: int
+    watchlist_name: str
+    summary: WatchlistChangeSummary
+    stocks: list[WatchlistChangeStock]
+
+
 class MarketDataResponse(BaseModel):
     symbol: str
     open: float
