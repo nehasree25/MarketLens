@@ -29,7 +29,8 @@ export default function AddStockModal({ watchlist, onClose, onUpdated, onUnautho
       setSearching(true)
       setSearchError(null)
       try {
-        setResults(await searchStocks(trimmedQuery))
+        const response = await searchStocks(trimmedQuery)
+        setResults(response.data || [])
       } catch (error) {
         if (error.status === 401 || error.status === 403) onUnauthorized()
         else setSearchError('Unable to load stocks. Please try again.')
